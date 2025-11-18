@@ -11,7 +11,7 @@ st.title("🌦 台灣即時天氣 Dashboard（溫度 / 濕度 / 雨量）")
 @st.cache_data(ttl=300)
 def get_temp_humidity():
     url=f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWA-2D78131F-B85B-40FB-9C0A-24A8526DB355"
-    res=requests.get(url).json()
+    res=requests.get(url,verify=False).json()
     
 
     locations=res["records"]["Station"]
@@ -35,7 +35,7 @@ def get_temp_humidity():
 
 def get_rainfall():
     url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization={API_KEY}"
-    res = requests.get(url).json()
+    res = requests.get(url,verify=False).json()
 
     stations = res["records"]["Station"]
 
@@ -80,3 +80,4 @@ with co3:
     st.metric("🌧 全台最大日累積雨量", f"{df['當日累積雨量(mm)'].max():.1f} mm")
 
 st.success("資料每 5 分鐘自動更新（使用 CWA API O-A0001-001 + O-A0002-001）")
+
